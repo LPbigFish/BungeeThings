@@ -1,5 +1,6 @@
 package me.funny.bungeeplugins;
 
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -11,19 +12,12 @@ public final class Bungeeplugins extends Plugin implements Listener {
     private final SupportClass supportClass = new SupportClass(this);
     @Override
     public void onEnable() {
-        getProxy().getServers().get("lobby").getPlayers().forEach(player -> {
-            player.connect(getProxy().getServerInfo("survival_over"));
 
-            //give player permission to connect to survival_over and survival_nether
-            player.setPermission("bungeecord.server.survival_over", true);
-            player.setPermission("bungeecord.server.survival_nether", true);
-            supportClass.removeFromTheQueue();
-        });
-    }
+        getProxy().getPluginManager().registerListener(this, this);
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
+
+        getLogger().info("Queue system has been initialized!");
+        supportClass.removeFromTheQueue();
     }
 
     @EventHandler
@@ -38,6 +32,7 @@ public final class Bungeeplugins extends Plugin implements Listener {
     //player connect to lobby
     @EventHandler
     public void onPlayerJoinQueue(PostLoginEvent e) {
+        e.getPlayer().sendMessage(new TextComponent("§aYou have been added to the queue!"));
         supportClass.addToTheQueue(e.getPlayer());
     }
 }
