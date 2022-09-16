@@ -32,7 +32,9 @@ public final class Bungeeplugins extends Plugin implements Listener {
     //player connect to lobby
     @EventHandler
     public void onPlayerJoinQueue(PostLoginEvent e) {
-        e.getPlayer().sendMessage(new TextComponent("§aYou have been added to the queue!"));
-        supportClass.addToTheQueue(e.getPlayer());
+            e.getPlayer().setPermission("bungeecord.server.survival_over", false);
+            e.getPlayer().setPermission("bungeecord.server.survival_nether", false);
+            e.getPlayer().sendMessage(new TextComponent("§aYou have been added to the queue!"));
+            supportClass.addToTheQueue(e.getPlayer());
     }
 }
